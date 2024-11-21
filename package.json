@@ -1,0 +1,21 @@
+{
+  "name": "crypto-demo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon index"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "cryptico": "^1.0.2",
+    "crypto-js": "^4.2.0",
+    "eccrypto": "^1.1.6",
+    "express": "^4.21.1",
+    "javascript-blowfish": "^1.0.4",
+    "twofish": "^1.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  }
+}

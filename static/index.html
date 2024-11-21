@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Crypto Demo</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  min-width: 0;
+  min-height: 0;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #2d05ce, #f100d5);
+}
+
+form {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  width: 400px;
+}
+
+textarea {
+  width: 100%;
+  height: 100px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 16px;
+  resize: none;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+textarea:not(:last-of-type) {
+  margin-bottom: 20px;
+}
+
+textarea:focus {
+  border-color: #6a11cb;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+button {
+  width: 48%;
+  padding: 10px;
+  background-color: #6a11cb;
+  color: white;
+  border-radius: 8px;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  transition-property: background-color, opacity;
+  transition-duration: 300ms;
+}
+
+button:not(:disabled):hover {
+  background-color: #2575fc;
+}
+
+button:not(:disabled):active {
+  background-color: #1b5ac8;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+select {
+  width: 100%;
+  margin-bottom: 20px;
+  font-size: 16px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  outline: 0;
+  transition: border-color 0.3s;
+}
+
+select:focus {
+  border-color: #6a11cb;
+}
+
+.footer-container {
+  position: fixed; /* Фіксує текст відносно вікна браузера */
+  bottom: 10px;    /* Відступ від нижнього краю */
+  right: 10px;     /* Відступ від правого краю */
+  text-align: right; /* Вирівнювання тексту по правому краю */
+}
+
+.footer-container h3 {
+  color: white;    /* Білий колір тексту */
+  margin: 0;       /* Видаляємо стандартні відступи між рядками */
+  font-family:'Times New Roman', serif; /* Встановлюємо стиль шрифту */
+  font-size: 14px; /* Розмір тексту */
+}
+
+#algorithmInfo {
+  font-size: 14px;
+  color: #555;
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  display: none;
+}
+    </style>
+  </head>
+  <body>
+    <form onsubmit="event.preventDefault()">
+      <select id="encryptionMethodSelect" onchange="updateAlgorithmInfo()">
+        <option value="">Choose an encryption method</option>
+        <option value="AES">AES</option>
+        <option value="DES">DES</option>
+        <option value="Twofish">Twofish</option>
+        <option value="Blowfish">Blowfish</option>
+        <option value="RSA">RSA</option>
+        <option value="ECC">ECC</option>
+      </select>
+      <textarea id="inputTextArea" placeholder="Enter text to encrypt/decrypt"></textarea>
+      <div class="buttons">
+        <button id="encryptButton" onclick="encrypt()" type="button">Encrypt</button>
+        <button id="decryptButton" onclick="decrypt()" type="button">Decrypt</button>
+      </div>
+      <textarea id="outputTextArea" placeholder="Output will appear here" readonly></textarea>
+      
+      <div id="algorithmInfo">
+        <!-- Short information about selected algorithm will appear here -->
+      </div>
+    </form>
+    <div class="footer-container">
+      <h3>Course work of students of the UB-23b</h3>
+      <h3>Synchyshenoy Oleksandry</h3>
+  </div>
+  
+    <script src="script.js"></script> 
+    <script>
+      function updateAlgorithmInfo() {
+        const algorithmSelect = document.getElementById('encryptionMethodSelect');
+        const algorithmInfo = document.getElementById('algorithmInfo');
+        const selectedAlgorithm = algorithmSelect.value;
+
+        let infoText = '';
+        
+        switch (selectedAlgorithm) {
+          case 'AES':
+            infoText = 'AES (Advanced Encryption Standard) is a symmetric encryption algorithm widely used across the world to secure data. It uses the same key for both encryption and decryption.';
+            break;
+          case 'DES':
+            infoText = 'DES (Data Encryption Standard) is an older symmetric-key algorithm that was widely used but is now considered insecure due to its short key length (56 bits).';
+            break;
+          case 'Twofish':
+            infoText = 'Twofish is a symmetric key block cipher with a block size of 128 bits and key lengths up to 256 bits. It is known for its speed and security.';
+            break;
+          case 'Blowfish':
+            infoText = 'Blowfish is a symmetric-key block cipher designed to be fast and secure. It has a variable key length of up to 448 bits.';
+            break;
+          case 'RSA':
+            infoText = 'RSA (Rivest-Shamir-Adleman) is an asymmetric encryption algorithm that uses a public key for encryption and a private key for decryption.';
+            break;
+          case 'ECC':
+            infoText = 'ECC (Elliptic Curve Cryptography) is a form of asymmetric encryption that uses the algebraic structure of elliptic curves over finite fields. It provides high security with smaller key sizes.';
+            break;
+          default:
+            infoText = '';
+            break;
+        }
+
+        if (infoText) {
+          algorithmInfo.style.display = 'block';
+          algorithmInfo.textContent = infoText;
+        } else {
+          algorithmInfo.style.display = 'none';
+        }
+      }
+    </script>
+  </body>
+</html>
